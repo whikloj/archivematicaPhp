@@ -1,0 +1,29 @@
+
+-
+    request:
+        method: POST
+        url: 'http://192.168.168.192:8000/api/v2/file/7d7a4a47-19b5-46b3-aafe-a4a6c79d65ba/reingest/'
+        headers:
+            Host: '192.168.168.192:8000'
+            Expect: ''
+            Accept-Encoding: ''
+            User-Agent: GuzzleHttp/7
+            Content-Type: application/json
+            Authorization: 'ApiKey test:5de62f6f4817f903dcfac47fa5cffd44685a2cf2'
+            Accept: ''
+        body: '{"pipeline":"8490b352-6ad0-4590-a3f1-6dc5f8abd603","reingest_type":"FULL","processing_config":"default"}'
+    response:
+        status:
+            http_version: '1.1'
+            code: '405'
+            message: 'Method Not Allowed'
+        headers:
+            Server: nginx/1.20.2
+            Date: 'Fri, 04 Mar 2022 22:35:34 GMT'
+            Content-Type: application/json
+            Content-Length: '94'
+            Connection: keep-alive
+            Vary: 'Accept, Accept-Language, Cookie'
+            X-Frame-Options: SAMEORIGIN
+            Content-Language: en
+        body: '{"error": true, "message": "Package with type DIP cannot be re-ingested.", "status_code": 405}'

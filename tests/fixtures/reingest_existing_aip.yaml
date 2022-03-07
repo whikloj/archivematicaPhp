@@ -1,0 +1,29 @@
+
+-
+    request:
+        method: POST
+        url: 'http://192.168.168.192:8000/api/v2/file/df8e0c68-3bda-4d1d-8493-789f7dec47f5/reingest/'
+        headers:
+            Host: '192.168.168.192:8000'
+            Expect: ''
+            Accept-Encoding: ''
+            User-Agent: GuzzleHttp/7
+            Content-Type: application/json
+            Authorization: 'ApiKey test:5de62f6f4817f903dcfac47fa5cffd44685a2cf2'
+            Accept: ''
+        body: '{"pipeline":"65aaac5d-b4fd-478e-967b-6cdfee02f2c5","reingest_type":"FULL","processing_config":"default"}'
+    response:
+        status:
+            http_version: '1.1'
+            code: '202'
+            message: Accepted
+        headers:
+            Server: nginx/1.20.2
+            Date: 'Mon, 07 Mar 2022 15:51:02 GMT'
+            Content-Type: application/json
+            Content-Length: '252'
+            Connection: keep-alive
+            Vary: 'Accept, Accept-Language, Cookie'
+            X-Frame-Options: SAMEORIGIN
+            Content-Language: en
+        body: '{"error": false, "message": "Package df8e0c68-3bda-4d1d-8493-789f7dec47f5 sent to pipeline Archivematica on 7e7f2995a0e3 (65aaac5d-b4fd-478e-967b-6cdfee02f2c5) for re-ingest", "reingest_uuid": "df8e0c68-3bda-4d1d-8493-789f7dec47f5", "status_code": 202}'

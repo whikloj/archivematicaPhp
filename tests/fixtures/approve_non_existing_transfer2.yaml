@@ -1,0 +1,68 @@
+
+-
+    request:
+        method: POST
+        url: 'http://127.0.0.1:62080/api/v2/transfer/approve/'
+        headers:
+            Host: '127.0.0.1:62080'
+            Expect: ''
+            Accept-Encoding: ''
+            User-Agent: GuzzleHttp/7
+            Content-Type: application/x-www-form-urlencoded
+            Authorization: 'ApiKey test:817deb8f6fb537d0c6afc417110261de0a1cc336'
+            Accept: ''
+        body: 'type=standard&directory=approve_2'
+    response:
+        status:
+            http_version: '1.1'
+            code: '500'
+            message: 'Internal Server Error'
+        headers:
+            Server: nginx/1.20.2
+            Date: 'Mon, 14 Feb 2022 21:07:33 GMT'
+            Content-Type: application/json
+            Content-Length: '59'
+            Connection: keep-alive
+            X-Archivematica-Version: 1.14.0
+            X-Archivematica-ID: 8490b352-6ad0-4590-a3f1-6dc5f8abd603
+            Vary: 'Accept-Language, Cookie'
+            Content-Language: en
+        body: '{"error": true, "message": "Unable to start the transfer."}'
+        curl_info:
+            url: 'http://127.0.0.1:62080/api/v2/transfer/approve/'
+            content_type: application/json
+            http_code: 500
+            header_size: 317
+            request_size: 263
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.063886
+            namelookup_time: 0.013455
+            connect_time: 0.0136
+            pretransfer_time: 0.013631
+            size_upload: 33.0
+            size_download: 59.0
+            speed_download: 923.0
+            speed_upload: 516.0
+            download_content_length: 59.0
+            upload_content_length: 33.0
+            starttransfer_time: 0.063858
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 127.0.0.1
+            certinfo: {  }
+            primary_port: 62080
+            local_ip: 127.0.0.1
+            local_port: 57761
+            http_version: 2
+            protocol: 1
+            ssl_verifyresult: 0
+            scheme: HTTP
+            appconnect_time_us: 0
+            connect_time_us: 13600
+            namelookup_time_us: 13455
+            pretransfer_time_us: 13631
+            redirect_time_us: 0
+            starttransfer_time_us: 63858
+            total_time_us: 63886

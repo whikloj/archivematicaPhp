@@ -1,0 +1,27 @@
+
+-
+    request:
+        method: POST
+        url: 'http://192.168.168.192/api/v2/transfer/approve/'
+        headers:
+            Host: '192.168.168.192'
+            Expect: ''
+            Accept-Encoding: ''
+            User-Agent: GuzzleHttp/7
+            Content-Type: application/x-www-form-urlencoded
+            Authorization: 'ApiKey test:3c23b0361887ace72b9d42963d9acbdf06644673'
+            Accept: ''
+        body: 'type=standard&directory=approve_2'
+    response:
+        body: '{"message": "Unable to start transfer.", "error": true}'
+        headers:
+            connection: keep-alive
+            content-language: en
+            content-length: '59'
+            content-type: application/json
+            date: 'Sun, 08 Apr 2018 07:02:56 GMT'
+            server: nginx/1.12.2
+            vary: 'Accept-Language, Cookie'
+        status:
+            code: '500'
+            message: 'INTERNAL SERVER ERROR'

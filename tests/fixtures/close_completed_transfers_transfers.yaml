@@ -1,0 +1,59 @@
+interactions:
+-   request:
+        headers:
+            Host: '192.168.168.192'
+            User-Agent: 'GuzzleHttp/7'
+            Authorization: 'ApiKey test:3c23b0361887ace72b9d42963d9acbdf06644673'
+        method: GET
+        url: 'http://192.168.168.192/api/v2/transfer/completed/'
+    response:
+        body: '{"message": "Fetched completed transfers successfully.", "results":
+        ["9bc0b1c7-658f-46d4-9a6f-4a282e8a8ee5", "d7bd50b5-6473-4e9f-8555-8515e55d0a16"]}'
+        headers:
+            Connection: keep-alive
+            Content-Language: en
+            Content-Type: application/json
+            Date: 'Mon, 07 May 2018 08:00:02 GMT'
+            Server: nginx/1.12.2
+            Vary: 'Accept-Language, Cookie'
+        status:
+            code: 200
+            message: OK
+-   request:
+        headers:
+            Host: '192.168.168.192'
+            User-Agent: 'GuzzleHttp/7'
+            Authorization: 'ApiKey test:3c23b0361887ace72b9d42963d9acbdf06644673'
+        method: DELETE
+        url: 'http://192.168.168.192/api/transfer/9bc0b1c7-658f-46d4-9a6f-4a282e8a8ee5/delete/'
+    response:
+        body: '{"removed": true}'
+        headers:
+            Connection: keep-alive
+            Content-Language: en
+            Content-Type: application/json
+            Date: 'Mon, 07 May 2018 08:00:02 GMT'
+            Server: nginx/1.12.2
+            Vary: 'Accept-Language, Cookie'
+        status:
+            code: 200
+            message: OK
+-   request:
+        headers:
+            Host: '192.168.168.192'
+            User-Agent: 'GuzzleHttp/7'
+            Authorization: 'ApiKey test:3c23b0361887ace72b9d42963d9acbdf06644673'
+        method: DELETE
+        url: 'http://192.168.168.192/api/transfer/d7bd50b5-6473-4e9f-8555-8515e55d0a16/delete/'
+    response:
+        body: '{"removed": true}'
+        headers:
+            Connection: keep-alive
+            Content-Language: en
+            Content-Type: application/json
+            Date: 'Mon, 07 May 2018 08:00:02 GMT'
+            Server: nginx/1.12.2
+            Vary: 'Accept-Language, Cookie'
+        status:
+            code: 200
+            message: OK

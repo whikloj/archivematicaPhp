@@ -1,0 +1,30 @@
+
+-
+    request:
+        method: POST
+        url: 'http://192.168.168.192:8000/api/v2/space/'
+        headers:
+            Host: '192.168.168.192:8000'
+            Expect: ''
+            Accept-Encoding: ''
+            User-Agent: GuzzleHttp/7
+            Content-Type: application/json
+            Authorization: 'ApiKey test:5de62f6f4817f903dcfac47fa5cffd44685a2cf2'
+            Accept: ''
+        body: '{"path":"\/test\/path","staging_path":"\/opt\/staging\/path","access_protocol":"FS"}'
+    response:
+        status:
+            http_version: '1.1'
+            code: '201'
+            message: Created
+        headers:
+            Server: nginx/1.20.2
+            Date: 'Wed, 02 Feb 2022 19:28:47 GMT'
+            Content-Type: application/json
+            Content-Length: '328'
+            Connection: keep-alive
+            Location: /api/v2/space/3d6212f4-e935-478b-97c7-3609a0e93558/
+            Vary: 'Accept, Accept-Language, Cookie'
+            X-Frame-Options: SAMEORIGIN
+            Content-Language: en
+        body: '{"access_protocol": "FS", "id": 5, "last_verified": null, "path": "/test/path", "resource_uri": "/api/v2/space/3d6212f4-e935-478b-97c7-3609a0e93558/", "size": null, "space": "3d6212f4-e935-478b-97c7-3609a0e93558", "staging_path": "/opt/staging/path", "used": 0, "uuid": "3d6212f4-e935-478b-97c7-3609a0e93558", "verified": false}'

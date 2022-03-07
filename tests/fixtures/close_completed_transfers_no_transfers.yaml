@@ -1,0 +1,20 @@
+interactions:
+-   request:
+        headers:
+            Host: '192.168.168.192'
+            User-Agent: 'GuzzleHttp/7'
+            Authorization: 'ApiKey test:3c23b0361887ace72b9d42963d9acbdf06644673'
+        method: GET
+        url: 'http://192.168.168.192/api/v2/transfer/completed/'
+    response:
+        body: '{"message": "Fetched completed transfers successfully.", "results": []}'
+        headers:
+            Connection: Keep-Alive
+            Content-Type: application/json
+            Date: 'Mon, 07 Nov 2016 19:06:08 GMT'
+            Keep-Alive: 'timeout=5, max=100'
+            Server: 'Apache/2.4.7 (Ubuntu)'
+            Vary: Cookie
+        status:
+            code: 200
+            message: OK

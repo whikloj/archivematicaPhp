@@ -1,0 +1,20 @@
+interactions:
+-   request:
+        headers:
+            Host: '192.168.168.192'
+            User-Agent: 'GuzzleHttp/7'
+            Authorization: 'ApiKey test:bad api key'
+        method: GET
+        url: 'http://192.168.168.192/api/v2/transfer/completed/'
+    response:
+        body: '{"message": "API key not valid.", "error": true}'
+        headers:
+            Connection: Keep-Alive
+            Content-Type: application/json
+            Date: 'Mon, 07 Nov 2016 19:06:08 GMT'
+            Keep-Alive: 'timeout=5, max=100'
+            Server: 'Apache/2.4.7 (Ubuntu)'
+            Vary: Cookie
+        status:
+            code: 403
+            message: FORBIDDEN

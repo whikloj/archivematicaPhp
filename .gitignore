@@ -1,0 +1,6 @@
+.idea/
+.phpunit.result.cache
+vendor/
+clover.xml
+archivematicaPhpTests.log
+composer.lock

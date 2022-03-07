@@ -1,0 +1,26 @@
+
+-
+    request:
+        method: GET
+        url: 'http://192.168.168.192/api/v2/transfer/completed/'
+        headers:
+            Host: '192.168.168.192'
+            User-Agent: 'GuzzleHttp/7'
+            Authorization: 'ApiKey test:3c23b0361887ace72b9d42963d9acbdf06644673'
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: 'OK'
+        headers:
+            Server: nginx/1.20.2
+            Date: 'Thu, 27 Jan 2022 21:07:44 GMT'
+            Content-Type: application/json
+            Content-Length: '71'
+            Connection: keep-alive
+            X-Archivematica-Version: 1.14.0
+            X-Archivematica-ID: 8490b352-6ad0-4590-a3f1-6dc5f8abd603
+            Vary: 'Accept-Language, Cookie'
+            Content-Language: en
+        body: '{"message": "Fetched completed transfers successfully.", "results":
+        ["26841c49-bed4-4db3-bf77-1bb0ac5db32c", "2f7bb26b-d1c7-484f-b41a-7e3f2fefa084"]}'

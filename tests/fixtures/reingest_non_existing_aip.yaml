@@ -1,0 +1,28 @@
+
+-
+    request:
+        method: POST
+        url: 'http://192.168.168.192:8000/api/v2/file/bb033eff-131e-48d5-980f-c4edab0cb038/reingest/'
+        headers:
+            Host: '192.168.168.192:8000'
+            Expect: ''
+            Accept-Encoding: ''
+            User-Agent: GuzzleHttp/7
+            Content-Type: application/json
+            Authorization: 'ApiKey test:5de62f6f4817f903dcfac47fa5cffd44685a2cf2'
+            Accept: ''
+        body: '{"pipeline":"bb033eff-131e-48d5-980f-c4edab0cb038","reingest_type":"FULL","processing_config":"default"}'
+    response:
+        status:
+            http_version: '1.1'
+            code: '404'
+            message: 'Not Found'
+        headers:
+            connection: keep-alive
+            content-language: en
+            content-type: text/html; charset=utf-8
+            date: 'Sun, 08 Apr 2018 07:17:17 GMT'
+            server: nginx/1.12.2
+            vary: 'Accept, Accept-Language, Cookie'
+            x-frame-options: SAMEORIGIN
+        body: 'Resource with UUID bb033eff-131e-48d5-980f-c4edab0cb038 does not exist'

@@ -1,0 +1,50 @@
+{
+  "name": "whikloj/archivematica-php",
+  "description": "A PHP client library for Archivematica",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.3",
+    "guzzlehttp/guzzle": "^7",
+    "monolog/monolog": "^2"
+  },
+  "require-dev": {
+    "php-vcr/phpunit-testlistener-vcr": "^3.2",
+    "phpunit/phpunit": "^9.5",
+    "squizlabs/php_codesniffer": "^3.6",
+    "sebastian/phpcpd": "^6.0",
+    "phpstan/phpstan": "^1.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "whikloj\\archivematicaPhp\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "whikloj\\archivematicaPhp\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "check": [
+      "./vendor/bin/phpcs --standard=PSR12 src tests",
+      "./vendor/bin/phpcpd --suffix='.php' src"
+    ],
+    "phpunit": [
+      "phpdbg -qrr ./vendor/bin/phpunit"
+    ],
+    "phpstan": [
+      "php -d memory_limit=-1 ./vendor/bin/phpstan analyze -l 3 src tests"
+    ],
+    "test" : [
+      "@check",
+      "@phpunit"
+    ]
+  },
+  "authors": [
+    {
+      "name": "Jared Whiklo",
+      "email": "jared.whiklo@umanitoba.ca",
+      "role": "Developer"
+    }
+  ]
+}
