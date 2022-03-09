@@ -23,7 +23,4 @@
         <exclude>./tests/ArchivematicaPhpTestBase.php</exclude>
     </testsuite>
     <logging/>
-    <listeners>
-        <listener class="VCR\PHPUnit\TestListener\VCRTestListener" file="vendor/php-vcr/phpunit-testlistener-vcr/src/VCRTestListener.php" />
-    </listeners>
 </phpunit>
