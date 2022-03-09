@@ -4,6 +4,7 @@ namespace whikloj\archivematicaPhp\Tests;
 
 use VCR\VCR;
 use whikloj\archivematicaPhp\Exceptions\AuthorizationException;
+use whikloj\archivematicaPhp\Exceptions\ItemNotFoundException;
 use whikloj\archivematicaPhp\Exceptions\RequestException;
 use whikloj\archivematicaPhp\Utils\ArchivmaticaUtils;
 
@@ -170,11 +171,12 @@ class TransferTests extends ArchivematicaPhpTestBase
         // Test the hiding of a unit type (transfer or ingest) via the Archivematica API.
         // Split up from original AMClient tests into 2 separate tests.
 
+        // This one exists.
         $this->archivematica->getTransfer()->delete(
             "fdf1f7d4-7b0e-46d7-a1cc-e1851f8b92ed"
         );
-
-        $this->expectException(RequestException::class);
+        // This one doesn't exist.
+        $this->expectException(ItemNotFoundException::class);
         $this->archivematica->getTransfer()->delete(
             "777a9d9e-baad-f00d-8c7e-00b75773672d"
         );
@@ -210,7 +212,7 @@ class TransferTests extends ArchivematicaPhpTestBase
     {
         VCR::insertCassette("approve_non_existing_transfer.yaml");
         $this->expectException(RequestException::class);
-        $this->expectErrorMessageMatches("/^Request failed, 500: Server error:/");
+        $this->expectErrorMessageMatches("/^Request to approve directory \(approve_2\) failed: INTERNAL SERVER ERROR/");
         $this->archivematica->getTransfer()->approve("approve_2", "standard");
     }
 }

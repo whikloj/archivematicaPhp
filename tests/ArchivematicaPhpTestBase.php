@@ -62,4 +62,41 @@ class ArchivematicaPhpTestBase extends TestCase
             ->setAMCreds($local_am_user, $local_am_key)
             ->setSSCreds($local_ss_user, $local_ss_key);
     }
+
+    /**
+     * Compare two arrays have all the same elements, does not compare order.
+     *
+     * @param array $expected The expected array.
+     * @param array $testing The array to test.
+     */
+    protected function assertArrayEquals(array $expected, array $testing): void
+    {
+        // They have the same number of elements
+        $this->assertCount(count($expected), $testing);
+        // All the elements in $expected exist in $testing
+        $this->assertCount(0, array_diff($expected, $testing));
+        // All the elements in $testing exist in $expected (possibly overkill)
+        $this->assertCount(0, array_diff($testing, $expected));
+    }
+
+    /**
+     * Create a temporary directory
+     *
+     * @return string
+     *   The temporary directory path.
+     * @throws \Exception
+     *   Unable to create a temporary file or delete the file and create a directory.
+     */
+    protected function createTempDir(): string
+    {
+        $tempname = @tempnam("", "archivematicaPhp_");
+        if ($tempname !== false) {
+            if (@unlink($tempname)) {
+                if (@mkdir($tempname)) {
+                    return $tempname;
+                }
+            }
+        }
+        throw new \Exception("Unable to create a temporary directory");
+    }
 }

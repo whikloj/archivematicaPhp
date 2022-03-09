@@ -5,6 +5,7 @@ namespace whikloj\archivematicaPhp\Utils;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use whikloj\archivematicaPhp\Exceptions\AuthorizationException;
+use whikloj\archivematicaPhp\Exceptions\ItemNotFoundException;
 use whikloj\archivematicaPhp\Exceptions\RequestException;
 
 /**
@@ -53,21 +54,11 @@ class ArchivmaticaUtils
      *
      * @param GuzzleException $exception
      *   The exception to check.
-     * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
-     *   If the GuzzleException is 403.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   If the GuzzleException is anything else.
      */
     public static function decodeGuzzleException(GuzzleException $exception): void
     {
-        if ($exception->getCode() === 403) {
-            // 403 Forbidden, insufficient permissions.
-            throw new AuthorizationException(
-                "Authorization failure, {$exception->getCode()}: {$exception->getMessage()}",
-                $exception->getCode(),
-                $exception
-            );
-        }
         throw new RequestException(
             "Request failed, {$exception->getCode()}: {$exception->getMessage()}",
             $exception->getCode(),
@@ -86,22 +77,60 @@ class ArchivmaticaUtils
      *   An array from the response body.
      * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
      *   If the response was a 403 Forbidden.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Thrown if status code was 404 and not expected.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   If the response is invalid.
      */
-    public static function checkResponse(
+    public static function decodeJsonResponse(
         ResponseInterface $response,
         int $expected_code,
         string $message
     ): array {
+        self::assertResponseCode($response, $expected_code, $message);
+        $body = json_decode($response->getBody()->getContents(), true);
+        if (!is_array($body)) {
+            $body = [$body];
+        }
+        return $body;
+    }
+
+    /**
+     * Check the response for the expected response code.
+     *
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *   The response to check
+     * @param int $expected_code
+     *   The expected HTTP status code
+     * @param string $error_message
+     *   A contextual error message to add to any exceptions thrown.
+     * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
+     *   Thrown if status code was 403 and not expected.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Thrown if status code was 404 and not expected.
+     * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
+     *   Thrown for any other not expected status codes.
+     */
+    public static function assertResponseCode(
+        ResponseInterface $response,
+        int $expected_code,
+        string $error_message
+    ): void {
         $code = $response->getStatusCode();
-        if ($code === 403) {
+        $excep_message = $response->getReasonPhrase();
+        if ($code === $expected_code) {
+            // Short circuit in-case we expected an error.
+        } elseif ($code === 403) {
             throw new AuthorizationException(
-                "Invalid credentials or insufficient permissions: {$response->getReasonPhrase()}",
+                "Invalid credentials or insufficient permissions: $error_message, $excep_message",
                 $code
             );
-        } elseif ($code !== $expected_code) {
-            $excep_message = $response->getReasonPhrase();
+        } elseif ($code === 404) {
+            throw new ItemNotFoundException(
+                "Item was not located: $error_message, $excep_message",
+                $code
+            );
+        } else {
             if (
                 $response->hasHeader("content-type") &&
                 in_array("application/json", $response->getHeader("content-type"))
@@ -112,15 +141,10 @@ class ArchivmaticaUtils
                 }
             }
             throw new RequestException(
-                "$message: $excep_message",
+                "$error_message: $excep_message",
                 $code
             );
         }
-        $body = json_decode($response->getBody()->getContents(), true);
-        if (!is_array($body)) {
-            $body = [$body];
-        }
-        return $body;
     }
 
     /**
@@ -174,6 +198,7 @@ class ArchivmaticaUtils
      */
     public static function isValidTransferType(string $type): void
     {
+        // TODO: Use an enum once PHP 8.0 is the minimum supported version.
         if (!in_array($type, self::TRANSFER_TYPES)) {
             throw new \InvalidArgumentException(
                 "Invalid transfer type ($type) provided, must be one of " . implode(", ", self::TRANSFER_TYPES)
@@ -191,6 +216,7 @@ class ArchivmaticaUtils
      */
     public static function isValidPackageType(string $type): void
     {
+        // TODO: Use an enum once PHP 8.0 is the minimum supported version.
         if (!in_array($type, self::PACKAGE_TYPES)) {
             throw new \InvalidArgumentException(
                 "Invalid package type ($type) provided must be one of " . implode(", ", self::PACKAGE_TYPES)

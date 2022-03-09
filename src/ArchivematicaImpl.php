@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
+use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -132,6 +133,7 @@ class ArchivematicaImpl implements ArchivematicaInstance
     private function setupGuzzle()
     {
         $am_stack = HandlerStack::create();
+        $am_stack->remove(RequestOptions::HTTP_ERRORS); // Disable exceptions on all requests.
         $am_stack->push(Middleware::mapRequest(function (RequestInterface $request) {
             if (
                 !$request->hasHeader('Authorization')
@@ -139,9 +141,10 @@ class ArchivematicaImpl implements ArchivematicaInstance
                 $request = $request->withHeader('Authorization', $this->getAMAuthorization());
             }
             return $request;
-        }));
+        }), 'add_api_key');
         $this->am_client = new Client(['base_uri' => $this->archivematica_url, 'handler' => $am_stack]);
         $ss_stack = HandlerStack::create();
+        $ss_stack->remove(RequestOptions::HTTP_ERRORS); // Disable exceptions on all requests.
         $ss_stack->push(Middleware::mapRequest(function (RequestInterface $request) {
             if (
                 !$request->hasHeader('Authorization')
@@ -149,7 +152,7 @@ class ArchivematicaImpl implements ArchivematicaInstance
                 $request = $request->withHeader('Authorization', $this->getSSAuthorization());
             }
             return $request;
-        }));
+        }), 'add_api_key');
         $this->ss_client = new Client(['base_uri' => $this->storage_url, 'handler' => $ss_stack]);
     }
 

@@ -81,7 +81,7 @@ class SpaceImpl implements Space
                     'query' => $filter_params
                 ]
             );
-            $output = ArchivmaticaUtils::checkResponse(
+            $output = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Failed to get spaces"
@@ -102,7 +102,7 @@ class SpaceImpl implements Space
             $response = $this->client->get(
                 "/api/v2/space/$uuid/",
             );
-            $body = ArchivmaticaUtils::checkResponse(
+            $body = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Failed to get details about space ({$uuid})"
@@ -130,7 +130,7 @@ class SpaceImpl implements Space
                     'query' => $query_params,
                 ]
             );
-            $body = ArchivmaticaUtils::checkResponse(
+            $body = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Request to browse space ({$uuid}) failed."

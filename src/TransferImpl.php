@@ -39,7 +39,7 @@ class TransferImpl extends OperationImpl implements Transfer
                     'form_params' => $data,
                 ]
             );
-            $body = Utils\ArchivmaticaUtils::checkResponse(
+            $body = Utils\ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 201,
                 "Request to start transfer ({$name}) failed"
@@ -67,7 +67,7 @@ class TransferImpl extends OperationImpl implements Transfer
             $response = $this->am_client->get(
                 '/api/v2/transfer/unapproved/'
             );
-            $body = Utils\ArchivmaticaUtils::checkResponse(
+            $body = Utils\ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Request to list transfers failed"
@@ -106,10 +106,10 @@ class TransferImpl extends OperationImpl implements Transfer
                     ],
                 ]
             );
-            $body = Utils\ArchivmaticaUtils::checkResponse(
+            $body = Utils\ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
-                "Request to approve directory ({$directory}) failed"
+                "Request to approve directory ($directory) failed"
             );
             $this->logger->debug("Approve body", $body);
             if (
@@ -117,7 +117,7 @@ class TransferImpl extends OperationImpl implements Transfer
                 array_key_exists('error', $body) ||
                 $body['message'] !== 'Approval successful.'
             ) {
-                throw new RequestException("Request to approve directory ({$directory}) failed");
+                throw new RequestException("Request to approve directory ($directory) failed");
             }
             $output = $body['uuid'];
         } catch (GuzzleException $e) {

@@ -21,7 +21,7 @@ class IngestImpl extends OperationImpl implements Ingest
             $response = $this->am_client->get(
                 '/api/ingest/waiting'
             );
-            $results = Utils\ArchivmaticaUtils::checkResponse(
+            $results = Utils\ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Failed to get waiting ingests"
@@ -59,7 +59,7 @@ class IngestImpl extends OperationImpl implements Ingest
                     ],
                 ]
             );
-            $body = Utils\ArchivmaticaUtils::checkResponse(
+            $body = Utils\ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 204,
                 "Unable to add metadata to ingest $uuid"

@@ -50,7 +50,7 @@ abstract class OperationImpl implements Operation
             $response = $this->am_client->get(
                 "/api/v2/$type/completed/"
             );
-            $body = Utils\ArchivmaticaUtils::checkResponse(
+            $body = Utils\ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Request for completed {$type}s failed"
@@ -95,7 +95,7 @@ abstract class OperationImpl implements Operation
             $response = $this->am_client->get(
                 $url
             );
-            $output = Utils\ArchivmaticaUtils::checkResponse(
+            $output = Utils\ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Request for status failed"
@@ -130,7 +130,7 @@ abstract class OperationImpl implements Operation
             $response = $this->am_client->delete(
                 "/api/$type/$uuid/delete/"
             );
-            $body = Utils\ArchivmaticaUtils::checkResponse(
+            $body = Utils\ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Request to hide $type ({$uuid}) failed"
@@ -173,7 +173,7 @@ abstract class OperationImpl implements Operation
                     ],
                 ]
             );
-            $body = Utils\ArchivmaticaUtils::checkResponse(
+            $body = Utils\ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 201,
                 "Re-ingest request ({$uuid}) failed"

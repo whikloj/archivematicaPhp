@@ -56,7 +56,7 @@ class StorageServiceImpl implements StorageService
         try {
             $url = "/api/v2/location/$transfer_source/browse/";
             $response = $this->client->get($url);
-            $body = ArchivmaticaUtils::checkResponse(
+            $body = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Problem with listEntities request"

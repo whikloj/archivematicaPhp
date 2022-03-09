@@ -119,7 +119,6 @@ interface Package
      *   Permissions issues with request.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Other request issues.
-     * @todo Use enum for $type once PHP >= 8.0
      */
     public function createFromExisting(
         string $new_uuid,
@@ -167,7 +166,6 @@ interface Package
      *   Invalid re-ingest type received.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Other request issues.
-     * @todo Use enum for $type once PHP >= 8.0
      */
     public function reingest(
         string $uuid,
@@ -175,4 +173,74 @@ interface Package
         string $type = "FULL",
         string $processing_config = "default"
     ): string;
+
+    /**
+     * Get a mapping of AIP UUID to DIP UUIDs
+     *
+     * @return array
+     *   Associative array where keys are AIP UUID and values are array of DIP UUIDs.
+     * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
+     *   Permissions issues with request.
+     * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
+     *   Other request issues
+     */
+    public function getAips2Dips(): array;
+
+    /**
+     * Get an array of DIPs for an AIP.
+     *
+     * @param string $uuid
+     *   The AIP UUID.
+     * @param bool $uuid_only
+     *   Whether to return an array of DIP UUIDs instead of full detailed objects.
+     * @return array
+     *   Array of DIPs.
+     * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
+     *   Permissions issues with request.
+     * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
+     *   Other request issues
+     */
+    public function getDipsForAip(string $uuid, bool $uuid_only = false): array;
+
+    /**
+     * Download a package to the directory.
+     *
+     * @param string $uuid
+     *   The AIP or DIP UUID.
+     * @param string $directory
+     *   The directory to download too.
+     * @param string
+     *   The path to the downloaded file.
+     * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
+     *   Permissions issues with request.
+     * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
+     *   Other request issues
+     * @throws \whikloj\archivematicaPhp\Exceptions\FilesystemException
+     *   Problems writing the package to the directory.
+     */
+    public function download(string $uuid, string $directory): string;
+
+    /**
+     * Delete a package
+     *
+     * @param string $uuid
+     *   The UUID of the package to delete.
+     * @param string $pipeline_uuid
+     *   The UUID of the pipeline the package is on.
+     * @param string $reason
+     *   The reason to delete the package.
+     * @param int $user_id
+     *   The id of the user requesting the package deletion. This is the user on the pipeline specified.
+     * @param string $user_email
+     *   The email of the user requesting the package deletion.
+     * @return int
+     *   The delete package request id.
+     * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
+     *   Permissions issues with request.
+     * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
+     *   Other request issues
+     * @throws \InvalidArgumentException
+     *   User ID is not greater than 0
+     */
+    public function delete(string $uuid, string $pipeline_uuid, string $reason, int $user_id, string $user_email): int;
 }

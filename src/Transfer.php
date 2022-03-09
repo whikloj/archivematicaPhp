@@ -30,7 +30,6 @@ interface Transfer extends Operation
      *   Problem with username or API key.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Problem with making the request.
-     * @todo Use enum for $type once PHP >= 8.0
      */
     public function start(
         string $name,
@@ -92,7 +91,6 @@ interface Transfer extends Operation
      *   Problem with making the request.
      * @throws \InvalidArgumentException
      *   Invalid type provided.
-     * @todo Use enum for $type once PHP >= 8.0
      */
     public function approve(string $directory, string $type): string;
 }

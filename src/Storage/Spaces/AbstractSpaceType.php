@@ -74,7 +74,7 @@ abstract class AbstractSpaceType implements SpaceType
                     'json' => $payload,
                 ]
             );
-            $output = ArchivmaticaUtils::checkResponse(
+            $output = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 201,
                 "Failed to create space of type ($this->space_name)"

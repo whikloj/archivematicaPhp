@@ -3,6 +3,7 @@
 namespace whikloj\archivematicaPhp\Tests;
 
 use VCR\VCR;
+use whikloj\archivematicaPhp\Exceptions\ItemNotFoundException;
 use whikloj\archivematicaPhp\Exceptions\RequestException;
 use whikloj\archivematicaPhp\Utils\ArchivmaticaUtils;
 
@@ -52,11 +53,12 @@ class IngestTests extends ArchivematicaPhpTestBase
         VCR::insertCassette("test_hide_units.yaml");
         // Test the hiding of a unit type (transfer or ingest) via the Archivematica API.
         // Split up from original AMClient tests into 2 separate tests.
+        // This on exists.
         $this->archivematica->getIngest()->delete(
             "b72afa68-9e82-410d-9235-02fa10512e14"
         );
-
-        $this->expectException(RequestException::class);
+        // This one doesn't exist.
+        $this->expectException(ItemNotFoundException::class);
         $this->archivematica->getIngest()->delete(
             "777a9d9e-baad-f00d-8c7e-00b75773672d"
         );
@@ -184,7 +186,7 @@ class IngestTests extends ArchivematicaPhpTestBase
         // that does not exist.
         $pipeline_uuid = "bb033eff-131e-48d5-980f-c4edab0cb038";
         $aip_uuid = "bb033eff-131e-48d5-980f-c4edab0cb038";
-        $this->expectException(RequestException::class);
+        $this->expectException(ItemNotFoundException::class);
         $this->expectExceptionCode(404);
         $this->archivematica->getPackage()->reingest(
             $aip_uuid,

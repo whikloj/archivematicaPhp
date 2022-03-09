@@ -4,7 +4,7 @@ namespace whikloj\archivematicaPhp;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use whikloj\archivematicaPhp\Exceptions\RequestException;
+use whikloj\archivematicaPhp\Exceptions\FilesystemException;
 use whikloj\archivematicaPhp\Utils\ArchivmaticaUtils;
 
 /**
@@ -100,7 +100,7 @@ class PackageImpl implements Package
                     "query" => $params,
                 ]
             );
-            $data = ArchivmaticaUtils::checkResponse($response, 200, "Unable to get all package details");
+            $data = ArchivmaticaUtils::decodeJsonResponse($response, 200, "Unable to get all package details");
             $output = self::processListing($data);
             $output["objects"] = array_merge($objects["objects"], $output["objects"]);
         } catch (GuzzleException $e) {
@@ -156,7 +156,7 @@ class PackageImpl implements Package
                     "json" => $params,
                 ]
             );
-            $output = ArchivmaticaUtils::checkResponse(
+            $output = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 201,
                 "Unable to create new package from existing package ($old_uuid)"
@@ -177,7 +177,7 @@ class PackageImpl implements Package
             $response = $this->ss_client->get(
                 "/api/v2/file/$uuid/"
             );
-            $body = ArchivmaticaUtils::checkResponse(
+            $body = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Unable to GET details of package $uuid"
@@ -198,6 +198,7 @@ class PackageImpl implements Package
         string $processing_config = "default"
     ): string {
         $type = strtoupper($type);
+        // TODO: Use an enum when PHP 8.0 is our minimum version.
         if ($type !== "FULL" && $type !== "OBJECTS" && $type !== "METADATA_ONLY") {
             throw new \InvalidArgumentException(
                 "Reingest type was $type, must be one of FULL, OBJECTS or METADATA_ONLY"
@@ -216,11 +217,160 @@ class PackageImpl implements Package
                     ]
                 ]
             );
-            $body = ArchivmaticaUtils::checkResponse($response, 202, "Unable to initiate reingest of AIP $uuid");
+            $body = ArchivmaticaUtils::decodeJsonResponse($response, 202, "Unable to initiate reingest of AIP $uuid");
             $reingest_uuid = $body['reingest_uuid'];
         } catch (GuzzleException $e) {
             ArchivmaticaUtils::decodeGuzzleException($e);
         }
         return $reingest_uuid;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAips2Dips(): array
+    {
+        $dips = $this->getAllDips();
+        $aips = $this->getAllAips();
+        $mapping = [];
+        foreach ($aips["objects"] as $aip) {
+            $uuid = $aip["uuid"];
+            $mapping[$uuid] = [];
+            $left_over_dips = [];
+            foreach ($dips["objects"] as $dip) {
+                if (substr($dip["current_path"], strlen($uuid) * -1) == $uuid) {
+                    $mapping[$uuid][] = $dip["uuid"];
+                } else {
+                    // Make a dips that we haven't matched to avoid iterating over matched ones more than once.
+                    $left_over_dips[] = $dip;
+                }
+            }
+            $dips["objects"] = $left_over_dips;
+        }
+        return $mapping;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDipsForAip(string $uuid, bool $uuid_only = false): array
+    {
+        $dips = $this->getAllDips();
+        if ($dips["total_count"] == 0) {
+            return [];
+        }
+        $dips = $dips["objects"];
+        // Array values regenerates the array indicies or you can't use $dips[0] to get the first element
+        $dips = array_values(array_filter($dips, function ($o) use ($uuid) {
+            return substr($o["current_path"], strlen($uuid) * -1) == $uuid;
+        }));
+        if (count($dips) > 0 && $uuid_only) {
+            $dips = array_map(function ($o) {
+                return $o["uuid"];
+            }, $dips);
+        }
+        return $dips;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function download(string $uuid, string $directory): string
+    {
+        $full_path = "";
+        try {
+            if (!file_exists($directory) || !is_dir($directory) || !is_writeable($directory)) {
+                throw new FilesystemException(
+                    "File $directory does not exist, is not a directory or is not writeable."
+                );
+            }
+            $response = $this->ss_client->GET(
+                "/api/v2/file/$uuid/download/",
+                ["stream" => true,]
+            );
+            ArchivmaticaUtils::assertResponseCode(
+                $response,
+                200,
+                "Unable to download package $uuid"
+            );
+            $filename = "package-$uuid.7z"; // Assumes packages are all 7z archives.
+            if ($response->hasHeader("Content-Disposition")) {
+                $disposition = $response->getHeader("Content-Disposition")[0];
+                if (preg_match('/filename="([^"]+)"/', $disposition, $matches)) {
+                    $filename = $matches[1];
+                }
+            } elseif ($response->hasHeader("Content-Type")) {
+                $type = $response->getHeader("Content-Type")[0];
+                $extension = self::contentTypeToExtension($type);
+                $filename = "package-$uuid.$extension";
+            }
+            $full_path = $directory . DIRECTORY_SEPARATOR . $filename;
+            $fp = fopen($full_path, "wb+");
+            $body = $response->getBody();
+            while (!$body->eof()) {
+                fwrite($fp, $body->read(4096));
+            }
+            $body->close();
+            fclose($fp);
+        } catch (GuzzleException $e) {
+            ArchivmaticaUtils::decodeGuzzleException($e);
+        }
+        return $full_path;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function delete(
+        string $uuid,
+        string $pipeline_uuid,
+        string $reason,
+        int $user_id,
+        string $user_email
+    ): int {
+        if ($user_id < 1) {
+            throw new \InvalidArgumentException("User ID must be an integer greater than 0.");
+        }
+        $delete_id = 0;
+        try {
+            $json = [
+                "pipeline" => $pipeline_uuid,
+                "event_reason" => $reason,
+                "user_id" => $user_id,
+                "user_email" => $user_email,
+            ];
+            $response = $this->ss_client->post(
+                "/api/v2/file/$uuid/delete_aip/",
+                [
+                    "json" => $json,
+                ]
+            );
+            $body = ArchivmaticaUtils::decodeJsonResponse($response, 202, "Unable to delete package $uuid");
+            $delete_id = (int) $body["id"];
+        } catch (GuzzleException $e) {
+            ArchivmaticaUtils::decodeGuzzleException($e);
+        }
+        return $delete_id;
+    }
+
+    /**
+     * Try to determine the package extension from the content-type.
+     * @param string $content_type
+     *   The content type
+     * @return string
+     *   The extension or "7z" by default
+     */
+    private static function contentTypeToExtension(string $content_type): string
+    {
+        if (strcasecmp("application/x-bzip2", $content_type) === 0) {
+            return "bz2";
+        } elseif (strcasecmp("application/x-gzip-compressed", $content_type) === 0) {
+            return "gz";
+        } elseif (strcasecmp("application/x-tar", $content_type) === 0) {
+            return "tar";
+        } elseif (preg_match("/^application\/x\-([^\-]+)\-compressed$", $content_type, $matches)) {
+            return $matches[1];
+        }
+        return "7z";
     }
 }

@@ -48,7 +48,7 @@ class LocationImpl implements Location
             $response = $this->am_client->get(
                 '/api/v2/location/'
             );
-            $output = ArchivmaticaUtils::checkResponse(
+            $output = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Failed to get all locations"
@@ -87,7 +87,7 @@ class LocationImpl implements Location
                     'json' => $payload,
                 ]
             );
-            $output = ArchivmaticaUtils::checkResponse(
+            $output = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 201,
                 "Failure to create new location"
@@ -108,7 +108,7 @@ class LocationImpl implements Location
             $response = $this->am_client->get(
                 "/api/v2/location/$uuid/"
             );
-            $details = ArchivmaticaUtils::checkResponse(
+            $details = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Failed to get location details ($uuid)"
@@ -139,7 +139,7 @@ class LocationImpl implements Location
                     ],
                 ]
             );
-            ArchivmaticaUtils::checkResponse(
+            ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 204,
                 "Failure to move files from $origin_location to $uuid on pipeline $pipeline"
@@ -168,7 +168,7 @@ class LocationImpl implements Location
                     'query' => $data,
                 ]
             );
-            $files = ArchivmaticaUtils::checkResponse(
+            $files = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Failed to browse location ($uuid)"

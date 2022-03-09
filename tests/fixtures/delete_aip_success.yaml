@@ -1,44 +1,29 @@
-interactions:
-- request:
-    body: !!python/unicode '{"pipeline": "a49dce91-3dca-4228-a271-0327ea89afb6", "event_reason":
-      "Testing that deletion request works", "user_id": "1", "user_email": "test@example.com"}'
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Authorization:
-      - !!python/unicode ApiKey test:test
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '157'
-      User-Agent:
-      - python-requests/2.26.0
-    method: POST
-    uri: http://192.168.168.192:8000/api/v2/file/fccc77cf-2045-44ed-9ddc-b335c63d5f9a/delete_aip/
-  response:
-    body:
-      string: !!python/unicode '{"message": "Delete request created successfully.",
-        "id": 2}'
-    headers:
-      connection:
-      - keep-alive
-      content-language:
-      - en
-      content-length:
-      - '60'
-      content-type:
-      - application/json
-      date:
-      - Tue, 30 Nov 2021 21:36:14 GMT
-      server:
-      - nginx/1.20.1
-      vary:
-      - Accept, Accept-Language, Cookie
-      x-frame-options:
-      - SAMEORIGIN
-    status:
-      code: 202
-      message: Accepted
-version: 1
+
+-
+    request:
+        method: POST
+        url: 'http://192.168.168.192:8000/api/v2/file/b36758e8-fe77-4af6-8b1e-b3dd074c25d0/delete_aip/'
+        headers:
+            Host: '192.168.168.192:8000'
+            Expect: ''
+            Accept-Encoding: ''
+            User-Agent: GuzzleHttp/7
+            Content-Type: application/json
+            Authorization: 'ApiKey test:5de62f6f4817f903dcfac47fa5cffd44685a2cf2'
+            Accept: ''
+        body: '{"pipeline":"8490b352-6ad0-4590-a3f1-6dc5f8abd603","event_reason":"Testing that deletion request works","user_id":1,"user_email":"test@example.com"}'
+    response:
+        status:
+            http_version: '1.1'
+            code: '202'
+            message: Accepted
+        headers:
+            Server: nginx/1.20.2
+            Date: 'Tue, 08 Mar 2022 19:14:06 GMT'
+            Content-Type: application/json
+            Content-Length: '60'
+            Connection: keep-alive
+            Vary: 'Accept, Accept-Language, Cookie'
+            X-Frame-Options: SAMEORIGIN
+            Content-Language: en
+        body: '{"message": "Delete request created successfully.", "id": 2}'

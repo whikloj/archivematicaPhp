@@ -61,7 +61,7 @@ class PipelineImpl implements Pipeline
             $response = $this->client->get(
                 "/api/v2/pipeline/{$uuid}"
             );
-            $body = ArchivmaticaUtils::checkResponse(
+            $body = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Failed to get Pipeline by UUID ($uuid)"
@@ -103,7 +103,7 @@ class PipelineImpl implements Pipeline
                     'query' => $filter_array,
                 ]
             );
-            $output = ArchivmaticaUtils::checkResponse(
+            $output = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 $message
@@ -147,7 +147,7 @@ class PipelineImpl implements Pipeline
                     'json' => $body_data,
                 ]
             );
-            $body = ArchivmaticaUtils::checkResponse(
+            $body = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 201,
                 "Failed to create new pipeline with UUID ({$uuid})"
