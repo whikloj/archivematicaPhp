@@ -4,7 +4,6 @@ namespace whikloj\archivematicaPhp\Storage;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use whikloj\archivematicaPhp\ArchivematicaImpl;
 use whikloj\archivematicaPhp\Exceptions\Storage\InvalidLocationPurposeException;
 use whikloj\archivematicaPhp\Utils\ArchivmaticaUtils;
 
@@ -45,7 +44,7 @@ class LocationImpl implements Location
     {
         $output = [];
         try {
-            $response = $this->am_client->get(
+            $response = $this->ss_client->get(
                 '/api/v2/location/'
             );
             $output = ArchivmaticaUtils::decodeJsonResponse(
@@ -74,8 +73,8 @@ class LocationImpl implements Location
         $purpose = $this->validatePurpose($purpose);
         $payload = [
             'description' => $description,
-            'pipeline' => $pipeline_uri,
-            'space' => $space_uri,
+            'pipeline' => [ArchivmaticaUtils::asUri($pipeline_uri, "pipeline")],
+            'space' => ArchivmaticaUtils::asUri($space_uri, "space"),
             'default' => $default,
             'purpose' => $purpose,
             'relative_path' => $relative_path,
@@ -105,7 +104,7 @@ class LocationImpl implements Location
     {
         $details = [];
         try {
-            $response = $this->am_client->get(
+            $response = $this->ss_client->get(
                 "/api/v2/location/$uuid/"
             );
             $details = ArchivmaticaUtils::decodeJsonResponse(

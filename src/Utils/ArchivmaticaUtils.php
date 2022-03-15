@@ -175,7 +175,7 @@ class ArchivmaticaUtils
      */
     public static function asUri(string $uuid, string $type): string
     {
-        if (substr_compare($uuid, "/api/v2/", 0, null, true) == 0) {
+        if (substr_compare($uuid, "/api/v2/", 0, 8, true) == 0) {
             // Already somewhat URI formatted, pass it back.
             return $uuid;
         }

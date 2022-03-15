@@ -1,0 +1,30 @@
+
+-
+    request:
+        method: POST
+        url: 'http://192.168.168.192:8000/api/v2/location/'
+        headers:
+            Host: '192.168.168.192:8000'
+            Expect: ''
+            Accept-Encoding: ''
+            User-Agent: GuzzleHttp/7
+            Content-Type: application/json
+            Authorization: 'ApiKey test:5de62f6f4817f903dcfac47fa5cffd44685a2cf2'
+            Accept: ''
+        body: '{"description":"Some test location","pipeline":["\/api\/v2\/pipeline\/8490b352-6ad0-4590-a3f1-6dc5f8abd603\/"],"space":"\/api\/v2\/space\/88498bd8-dd31-40b7-80dc-574a5a01bdf2\/","default":false,"purpose":"SD","relative_path":"test_fake_location"}'
+    response:
+        status:
+            http_version: '1.1'
+            code: '201'
+            message: Created
+        headers:
+            Server: nginx/1.20.2
+            Date: 'Tue, 15 Mar 2022 19:56:03 GMT'
+            Content-Type: application/json
+            Content-Length: '443'
+            Connection: keep-alive
+            Location: /api/v2/location/ecf0a4e3-2fbc-4e38-9de6-aa1f400ef9ff/
+            Vary: 'Accept, Accept-Language, Cookie'
+            X-Frame-Options: SAMEORIGIN
+            Content-Language: en
+        body: '{"default": false, "description": "Some test location", "enabled": true, "path": "/test_fake_location", "pipeline": ["/api/v2/pipeline/8490b352-6ad0-4590-a3f1-6dc5f8abd603/"], "purpose": "SD", "quota": null, "relative_path": "test_fake_location", "resource_uri": "/api/v2/location/ecf0a4e3-2fbc-4e38-9de6-aa1f400ef9ff/", "space": "/api/v2/space/88498bd8-dd31-40b7-80dc-574a5a01bdf2/", "used": 0, "uuid": "ecf0a4e3-2fbc-4e38-9de6-aa1f400ef9ff"}'

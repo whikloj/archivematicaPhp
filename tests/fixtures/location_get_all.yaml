@@ -1,0 +1,27 @@
+
+-
+    request:
+        method: GET
+        url: 'http://192.168.168.192:8000/api/v2/location/'
+        headers:
+            Host: '192.168.168.192:8000'
+            Accept-Encoding: ''
+            User-Agent: GuzzleHttp/7
+            Authorization: 'ApiKey test:5de62f6f4817f903dcfac47fa5cffd44685a2cf2'
+            Accept: ''
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            Server: nginx/1.20.2
+            Date: 'Tue, 15 Mar 2022 19:24:54 GMT'
+            Content-Type: application/json
+            Content-Length: '3745'
+            Connection: keep-alive
+            Vary: 'Accept, Accept-Language, Cookie'
+            Cache-Control: no-cache
+            X-Frame-Options: SAMEORIGIN
+            Content-Language: en
+        body: '{"meta": {"limit": 20, "next": null, "offset": 0, "previous": null, "total_count": 7}, "objects": [{"description": "Default transfer source", "enabled": true, "path": "/home", "pipeline": ["/api/v2/pipeline/8490b352-6ad0-4590-a3f1-6dc5f8abd603/", "/api/v2/pipeline/eb0b63e5-958b-42c5-b14b-00bf0a6965d4/"], "purpose": "TS", "quota": null, "relative_path": "home", "resource_uri": "/api/v2/location/4890ff24-14d8-4e02-a9b5-08c1d32dd707/", "space": "/api/v2/space/88498bd8-dd31-40b7-80dc-574a5a01bdf2/", "used": 0, "uuid": "4890ff24-14d8-4e02-a9b5-08c1d32dd707"}, {"description": "Store AIP in standard Archivematica Directory", "enabled": true, "path": "/var/archivematica/sharedDirectory/www/AIPsStore", "pipeline": ["/api/v2/pipeline/8490b352-6ad0-4590-a3f1-6dc5f8abd603/", "/api/v2/pipeline/eb0b63e5-958b-42c5-b14b-00bf0a6965d4/"], "purpose": "AS", "quota": null, "relative_path": "var/archivematica/sharedDirectory/www/AIPsStore", "resource_uri": "/api/v2/location/c3c78940-b080-48c5-8e35-f2426db15ae3/", "space": "/api/v2/space/88498bd8-dd31-40b7-80dc-574a5a01bdf2/", "used": -1333540, "uuid": "c3c78940-b080-48c5-8e35-f2426db15ae3"}, {"description": "Store DIP in standard Archivematica Directory", "enabled": true, "path": "/var/archivematica/sharedDirectory/www/DIPsStore", "pipeline": ["/api/v2/pipeline/8490b352-6ad0-4590-a3f1-6dc5f8abd603/", "/api/v2/pipeline/eb0b63e5-958b-42c5-b14b-00bf0a6965d4/"], "purpose": "DS", "quota": null, "relative_path": "var/archivematica/sharedDirectory/www/DIPsStore", "resource_uri": "/api/v2/location/72876829-166b-423d-85a7-51750660180e/", "space": "/api/v2/space/88498bd8-dd31-40b7-80dc-574a5a01bdf2/", "used": 421053, "uuid": "72876829-166b-423d-85a7-51750660180e"}, {"description": "Default transfer backlog", "enabled": true, "path": "/var/archivematica/sharedDirectory/www/AIPsStore/transferBacklog", "pipeline": ["/api/v2/pipeline/8490b352-6ad0-4590-a3f1-6dc5f8abd603/", "/api/v2/pipeline/eb0b63e5-958b-42c5-b14b-00bf0a6965d4/"], "purpose": "BL", "quota": null, "relative_path": "var/archivematica/sharedDirectory/www/AIPsStore/transferBacklog", "resource_uri": "/api/v2/location/64071b8d-a26b-4568-9de7-32edc22910c0/", "space": "/api/v2/space/88498bd8-dd31-40b7-80dc-574a5a01bdf2/", "used": 0, "uuid": "64071b8d-a26b-4568-9de7-32edc22910c0"}, {"description": "For storage service internal usage.", "enabled": true, "path": "/var/archivematica/storage_service", "pipeline": [], "purpose": "SS", "quota": null, "relative_path": "var/archivematica/storage_service", "resource_uri": "/api/v2/location/6144a703-9d09-4a26-be0c-6b707b47bd8e/", "space": "/api/v2/space/88498bd8-dd31-40b7-80dc-574a5a01bdf2/", "used": 0, "uuid": "6144a703-9d09-4a26-be0c-6b707b47bd8e"}, {"description": "Default AIP recovery", "enabled": true, "path": "/var/archivematica/storage_service/recover", "pipeline": ["/api/v2/pipeline/8490b352-6ad0-4590-a3f1-6dc5f8abd603/", "/api/v2/pipeline/eb0b63e5-958b-42c5-b14b-00bf0a6965d4/"], "purpose": "AR", "quota": null, "relative_path": "var/archivematica/storage_service/recover", "resource_uri": "/api/v2/location/4a22dca6-3ac2-4ec6-9ba5-403e880f049e/", "space": "/api/v2/space/88498bd8-dd31-40b7-80dc-574a5a01bdf2/", "used": 0, "uuid": "4a22dca6-3ac2-4ec6-9ba5-403e880f049e"}, {"description": null, "enabled": true, "path": "/var/archivematica/sharedDirectory", "pipeline": ["/api/v2/pipeline/8490b352-6ad0-4590-a3f1-6dc5f8abd603/", "/api/v2/pipeline/eb0b63e5-958b-42c5-b14b-00bf0a6965d4/"], "purpose": "CP", "quota": null, "relative_path": "var/archivematica/sharedDirectory/", "resource_uri": "/api/v2/location/6a03fb25-4e4a-44ea-bcd8-89b4b03286d9/", "space": "/api/v2/space/88498bd8-dd31-40b7-80dc-574a5a01bdf2/", "used": 0, "uuid": "6a03fb25-4e4a-44ea-bcd8-89b4b03286d9"}]}'
