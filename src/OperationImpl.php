@@ -42,6 +42,8 @@ abstract class OperationImpl implements Operation
      *   Problem with username or API key.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Problem with making the request.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Location not found.
      */
     protected function internalCompleted(string $type): array
     {
@@ -86,6 +88,8 @@ abstract class OperationImpl implements Operation
      *   Problem with username or API key.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Problem with making the request.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Location not found.
      */
     protected function internalStatus(string $uuid, string $type): array
     {
@@ -123,6 +127,8 @@ abstract class OperationImpl implements Operation
      *   Problem with username or API key.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Problem with making the request.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Location not found.
      */
     protected function internalDelete(string $uuid, string $type): void
     {
@@ -146,60 +152,9 @@ abstract class OperationImpl implements Operation
         }
     }
 
-    /**
-     * @param string $name
-     *   Name of the AIP. The AIP should also be found at %sharedDirectory%/tmp/<name>.
-     * @param string $uuid
-     *   UUID of the AIP to reingest
-     * @param string $type
-     *   The type of resource to reingest. One of "ingest" or "transfer"
-     * @return string
-     *   UUID of the re-ingested AIP.
-     * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
-     *   Problem with username or API key.
-     * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
-     *   Problem with making the request.
-     */
-    protected function internalReingest(string $name, string $uuid, string $type): string
-    {
-        $output = "";
-        try {
-            $response = $this->am_client->post(
-                "/api/$type/reingest/",
-                [
-                    'form_params' => [
-                        'name' => $name,
-                        'uuid' => $uuid,
-                    ],
-                ]
-            );
-            $body = Utils\ArchivmaticaUtils::decodeJsonResponse(
-                $response,
-                201,
-                "Re-ingest request ({$uuid}) failed"
-            );
-            if (
-                !is_array($body) || !array_key_exists('message', $body) ||
-                strcasecmp($body['message'], 'Approval successful.') != 0
-            ) {
-                throw new RequestException("Request for re-ingest ({$uuid}) did not succeed:");
-            }
-            $output = $body['reingest_uuid'];
-        } catch (GuzzleException $e) {
-            Utils\ArchivmaticaUtils::decodeGuzzleException($e);
-        }
-        return $output;
-    }
 
     /**
-     * Close all operations.
-     *
-     * @return array
-     *   Array with keys "completed", "close_failed" and "close_succeeded" with arrays of UUIDs.
-     * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
-     *   Problem with username or API key.
-     * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
-     *   Problem with getting the closed operations..
+     * {@inheritDoc}
      */
     public function closeCompleted(): array
     {

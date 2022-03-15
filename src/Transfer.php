@@ -58,6 +58,8 @@ interface Transfer extends Operation
      *   Problem with username or API key.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Problem with making the request.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Transfer not found
      */
     public function status(string $uuid): array;
 
@@ -73,6 +75,8 @@ interface Transfer extends Operation
      *   Problem with username or API key.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Problem with making the request.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Endpoint not found (returned a 404)
      */
     public function unapproved(): array;
 
@@ -91,6 +95,26 @@ interface Transfer extends Operation
      *   Problem with making the request.
      * @throws \InvalidArgumentException
      *   Invalid type provided.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Transfer not found.
      */
     public function approve(string $directory, string $type): string;
+
+    /**
+     * Reingest a transfer
+     *
+     * @param string $name
+     *   Name of the AIP. The AIP should also be found at %sharedDirectory%/tmp/<name>.
+     * @param string $uuid
+     *   UUID of the AIP to reingest
+     * @return string
+     *   UUID of the re-ingested AIP.
+     * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
+     *   Problem with username or API key.
+     * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
+     *   Problem with making the request.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Location not found.
+     */
+    public function reingest(string $name, string $uuid): string;
 }

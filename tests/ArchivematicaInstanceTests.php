@@ -9,7 +9,7 @@ use whikloj\archivematicaPhp\Exceptions\RequestException;
  * Tests for basic ArchivematicImpl methods.
  * @coversDefaultClass \whikloj\archivematicaPhp\ArchivematicaImpl
  */
-class ArchivematicInstanceTests extends ArchivematicaPhpTestBase
+class ArchivematicaInstanceTests extends ArchivematicaPhpTestBase
 {
     /**
      * @covers ::getTransfer

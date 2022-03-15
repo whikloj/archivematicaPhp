@@ -1,3 +1,9 @@
+
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg?style=flat-square)](https://php.net/)
+[![Github Actions](https://github.com/whikloj/archivematicaPhp/workflows/Build/badge.svg?branch=main)](https://github.com/whikloj/archivematicaPhp/actions?query=workflow%3A%22Build%22+branch%3Amain)
+[![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](./LICENSE)
+[![codecov](https://codecov.io/gh/whikloj/archivematicaPhp/branch/main/graph/badge.svg)](https://codecov.io/gh/whikloj/archivematicaPhp)
+
 ## Description
 This is a PHP client library for interacting with an [Archivematica](https://www.archivematica.org) instance. 
 It requires PHP >= 7.3.

@@ -1,0 +1,27 @@
+
+-
+    request:
+        method: GET
+        url: 'http://192.168.168.192/api/ingest/waiting'
+        headers:
+            Host: '192.168.168.192'
+            Accept-Encoding: ''
+            User-Agent: GuzzleHttp/7
+            Authorization: 'ApiKey test:3c23b0361887ace72b9d42963d9acbdf06644673'
+            Accept: ''
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            Server: nginx/1.20.2
+            Date: 'Wed, 09 Mar 2022 19:35:09 GMT'
+            Content-Type: application/json
+            Content-Length: '277'
+            Connection: keep-alive
+            X-Archivematica-Version: 1.14.0
+            X-Archivematica-ID: 8490b352-6ad0-4590-a3f1-6dc5f8abd603
+            Vary: 'Accept-Language, Cookie'
+            Content-Language: en
+        body: '{"results": [{"sip_directory": "add_metadata-e9948a25-8bed-4940-ab18-41c929278b65", "sip_uuid": "e9948a25-8bed-4940-ab18-41c929278b65", "sip_name": "add_metadata", "microservice": "Do you want to perform file format identification?"}], "message": "Fetched units successfully."}'

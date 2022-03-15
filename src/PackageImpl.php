@@ -368,7 +368,7 @@ class PackageImpl implements Package
             return "gz";
         } elseif (strcasecmp("application/x-tar", $content_type) === 0) {
             return "tar";
-        } elseif (preg_match("/^application\/x\-([^\-]+)\-compressed$", $content_type, $matches)) {
+        } elseif (preg_match("/^application\/x\-([^\-]+)\-compressed$/", $content_type, $matches)) {
             return $matches[1];
         }
         return "7z";

@@ -209,7 +209,7 @@ interface Package
      *   The AIP or DIP UUID.
      * @param string $directory
      *   The directory to download too.
-     * @param string
+     * @return string
      *   The path to the downloaded file.
      * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
      *   Permissions issues with request.

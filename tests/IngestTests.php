@@ -7,10 +7,16 @@ use whikloj\archivematicaPhp\Exceptions\ItemNotFoundException;
 use whikloj\archivematicaPhp\Exceptions\RequestException;
 use whikloj\archivematicaPhp\Utils\ArchivmaticaUtils;
 
+/**
+ * Tests of the Ingest object
+ * @author Jared Whiklo
+ * @since 0.0.1
+ */
 class IngestTests extends ArchivematicaPhpTestBase
 {
     /**
      * @covers \whikloj\archivematicaPhp\IngestImpl::completed
+     * @covers \whikloj\archivematicaPhp\OperationImpl::internalCompleted
      */
     public function testCompletedIngestsIngests()
     {
@@ -25,7 +31,7 @@ class IngestTests extends ArchivematicaPhpTestBase
     }
 
     /**
-     * @covers \whikloj\archivematicaPhp\IngestImpl::closeCompleted
+     * @covers \whikloj\archivematicaPhp\OperationImpl::closeCompleted
      */
     public function testCloseCompletedIngestsIngests()
     {
@@ -47,6 +53,7 @@ class IngestTests extends ArchivematicaPhpTestBase
 
     /**
      * @covers \whikloj\archivematicaPhp\IngestImpl::delete
+     * @covers \whikloj\archivematicaPhp\OperationImpl::internalDelete
      */
     public function testHideUnits()
     {
@@ -66,6 +73,7 @@ class IngestTests extends ArchivematicaPhpTestBase
 
     /**
      * @covers \whikloj\archivematicaPhp\IngestImpl::completed
+     * @covers \whikloj\archivematicaPhp\OperationImpl::internalCompleted
      */
     public function testCompletedIngestsNoIngests()
     {
@@ -77,7 +85,7 @@ class IngestTests extends ArchivematicaPhpTestBase
     }
 
     /**
-     * @covers \whikloj\archivematicaPhp\IngestImpl::closeCompleted
+     * @covers \whikloj\archivematicaPhp\OperationImpl::closeCompleted
      */
     public function testCloseCompletedIngestsNoIngests()
     {
@@ -96,6 +104,7 @@ class IngestTests extends ArchivematicaPhpTestBase
 
     /**
      * @covers \whikloj\archivematicaPhp\IngestImpl::status
+     * @covers \whikloj\archivematicaPhp\OperationImpl::internalStatus
      */
     public function testGetIngestStatus()
     {
@@ -116,6 +125,7 @@ class IngestTests extends ArchivematicaPhpTestBase
 
     /**
      * @covers \whikloj\archivematicaPhp\IngestImpl::status
+     * @covers \whikloj\archivematicaPhp\OperationImpl::internalStatus
      */
     public function testGetIngestStatusInvalidUuid()
     {
@@ -129,84 +139,41 @@ class IngestTests extends ArchivematicaPhpTestBase
     }
 
     /**
-     * @covers \whikloj\archivematicaPhp\PackageImpl::reingest
+     * @covers \whikloj\archivematicaPhp\IngestImpl::listWaiting
      */
-    public function testReingestAip(): void
+    public function testListWaitingNone(): void
     {
-        VCR::insertCassette("reingest_existing_aip.yaml");
-        // Test amclient's ability to initiate the reingest of an AIP.
-        $pipeline_uuid = "65aaac5d-b4fd-478e-967b-6cdfee02f2c5";
-        $aip_uuid = "df8e0c68-3bda-4d1d-8493-789f7dec47f5";
-        $reingest_uuid = $this->archivematica->getPackage()->reingest(
-            $aip_uuid,
-            $pipeline_uuid
-        );
-        $this->assertEquals($reingest_uuid, $aip_uuid);
+        VCR::insertCassette("ingest_list_waiting_none.yaml");
+        $waiting = $this->archivematica->getIngest()->listWaiting();
+        $this->assertIsArray($waiting);
+        $this->assertCount(0, $waiting);
     }
 
     /**
-     * @covers \whikloj\archivematicaPhp\PackageImpl::reingest
+     * @covers \whikloj\archivematicaPhp\IngestImpl::listWaiting
      */
-    public function testReingestMetadata(): void
+    public function testListWaiting(): void
     {
-        $aip_uuid = "b36758e8-fe77-4af6-8b1e-b3dd074c25d0";
-        $pipeline_uuid = "8490b352-6ad0-4590-a3f1-6dc5f8abd603";
-        VCR::insertCassette("reingest_existing_aip_metadata_only.yaml");
-        $reingest_uuid = $this->archivematica->getPackage()->reingest(
-            $aip_uuid,
-            $pipeline_uuid,
-            "METADATA_ONLY"
-        );
-        $this->assertEquals($aip_uuid, $reingest_uuid);
+        VCR::insertCassette("ingest_list_waiting_some.yaml");
+        $waiting = $this->archivematica->getIngest()->listWaiting();
+        $this->assertIsArray($waiting);
+        $this->assertCount(1, $waiting);
+        $this->assertArrayHasKey("sip_name", $waiting[0]);
+        $this->assertEquals("add_metadata", $waiting[0]["sip_name"]);
     }
 
-    /**
-     * @covers \whikloj\archivematicaPhp\PackageImpl::reingest
-     */
-    public function testReingestInvalidType(): void
+    # Skipping as when it operates against the docker instance it returns a 500 Server error,
+    # so the actual response is unknown.
+    public function skiptestAddMetadata(): void
     {
-        $pipeline_uuid = "65aaac5d-b4fd-478e-967b-6cdfee02f2c5";
-        $aip_uuid = "df8e0c68-3bda-4d1d-8493-789f7dec47f5";
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectErrorMessage("Reingest type was MAJOR, must be one of FULL, OBJECTS or METADATA_ONLY");
-        $this->archivematica->getPackage()->reingest(
-            $aip_uuid,
-            $pipeline_uuid,
-            "MAJOR"
-        );
-    }
-
-    /**
-     * @covers \whikloj\archivematicaPhp\PackageImpl::reingest
-     */
-    public function testReingestNonAip(): void
-    {
-        VCR::insertCassette("reingest_non_existing_aip.yaml");
-        // Test amclient's response to the initiation of a reingest for an AIP
-        // that does not exist.
-        $pipeline_uuid = "bb033eff-131e-48d5-980f-c4edab0cb038";
-        $aip_uuid = "bb033eff-131e-48d5-980f-c4edab0cb038";
-        $this->expectException(ItemNotFoundException::class);
-        $this->expectExceptionCode(404);
-        $this->archivematica->getPackage()->reingest(
-            $aip_uuid,
-            $pipeline_uuid
-        );
-    }
-
-    /**
-     * @covers \whikloj\archivematicaPhp\PackageImpl::reingest
-     */
-    public function testReingestDip(): void
-    {
-        VCR::insertCassette("reingest_existing_dip.yaml");
-        $aip_uuid = "7d7a4a47-19b5-46b3-aafe-a4a6c79d65ba";
-        $pipeline_uuid = "8490b352-6ad0-4590-a3f1-6dc5f8abd603";
-        $this->expectException(RequestException::class);
-        $this->expectExceptionCode(405);
-        $this->archivematica->getPackage()->reingest(
-            $aip_uuid,
-            $pipeline_uuid
-        );
+        $this->switchToLive();
+        VCR::insertCassette("ingest_add_metadata_sip.yaml");
+        $sip_uuid = "717106ae-8aa6-4961-8b28-d37344f7947c";
+        $source_paths = [
+            "4890ff24-14d8-4e02-a9b5-08c1d32dd707:/home/test_metadata.txt",
+            "4890ff24-14d8-4e02-a9b5-08c1d32dd707:/home/some_other.txt",
+        ];
+        $reingest = $this->archivematica->getIngest()->addMetadata($sip_uuid, $source_paths);
+        $this->assertIsNotArray($reingest);
     }
 }

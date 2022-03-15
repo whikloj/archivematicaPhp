@@ -19,6 +19,7 @@ class TransferTests extends ArchivematicaPhpTestBase
 {
     /**
      * @covers ::completed
+     * @covers \whikloj\archivematicaPhp\OperationImpl::internalCompleted
      */
     public function testCompletedTransfersTransfers(): void
     {
@@ -33,7 +34,7 @@ class TransferTests extends ArchivematicaPhpTestBase
     }
 
     /**
-     * @covers ::closeCompleted
+     * @covers  \whikloj\archivematicaPhp\OperationImpl::closeCompleted
      */
     public function testCloseCompletedTransfers(): void
     {
@@ -55,6 +56,7 @@ class TransferTests extends ArchivematicaPhpTestBase
 
     /**
      * @covers ::completed
+     * @covers \whikloj\archivematicaPhp\OperationImpl::internalCompleted
      */
     public function testCompletedTransfersNoTransfers(): void
     {
@@ -66,7 +68,7 @@ class TransferTests extends ArchivematicaPhpTestBase
     }
 
     /**
-     * @covers ::closeCompleted
+     * @covers \whikloj\archivematicaPhp\OperationImpl::closeCompleted
      */
     public function testCloseCompletedTransfersNoTransfers(): void
     {
@@ -84,6 +86,7 @@ class TransferTests extends ArchivematicaPhpTestBase
 
     /**
      * @covers ::completed
+     * @covers \whikloj\archivematicaPhp\OperationImpl::internalCompleted
      */
     public function testCompletedTransfersBadKey(): void
     {
@@ -126,6 +129,7 @@ class TransferTests extends ArchivematicaPhpTestBase
 
     /**
      * @covers ::status
+     * @covers \whikloj\archivematicaPhp\OperationImpl::internalStatus
      */
     public function testGetTransferStatus(): void
     {
@@ -145,6 +149,7 @@ class TransferTests extends ArchivematicaPhpTestBase
 
     /**
      * @covers ::status
+     * @covers \whikloj\archivematicaPhp\OperationImpl::internalStatus
      */
     public function testGetTransferStatusInvalidUuid(): void
     {
@@ -164,6 +169,7 @@ class TransferTests extends ArchivematicaPhpTestBase
 
     /**
      * @covers ::delete
+     * @covers \whikloj\archivematicaPhp\OperationImpl::internalDelete
      */
     public function testHideUnits()
     {

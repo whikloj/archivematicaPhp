@@ -18,6 +18,8 @@ interface Operation
      *   Problem with username or API key.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Problem with making the request.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Endpoint not found (returned a 404).
      */
     public function completed(): array;
 
@@ -30,6 +32,8 @@ interface Operation
      *   Problem with username or API key.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Problem with making the request to get completed operations.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Endpoint not found (returned a 404).
      */
     public function closeCompleted(): array;
 
@@ -51,6 +55,8 @@ interface Operation
      *   Problem with username or API key.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Problem with making the request.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Operation not found.
      */
     public function status(string $uuid): array;
 
@@ -63,6 +69,8 @@ interface Operation
      *   Problem with username or API key.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Problem with making the request.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Operation not found.
      */
     public function delete(string $uuid): void;
 }

@@ -2,7 +2,6 @@
 
 namespace whikloj\archivematicaPhp\Tests;
 
-use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\TestCase;
@@ -61,6 +60,7 @@ class ArchivematicaPhpTestBase extends TestCase
         )
             ->setAMCreds($local_am_user, $local_am_key)
             ->setSSCreds($local_ss_user, $local_ss_key);
+        VCR::configure()->setMode("new_episodes");
     }
 
     /**

@@ -39,7 +39,7 @@ class TransferImpl extends OperationImpl implements Transfer
                     'form_params' => $data,
                 ]
             );
-            $body = Utils\ArchivmaticaUtils::decodeJsonResponse(
+            $body = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 201,
                 "Request to start transfer ({$name}) failed"
@@ -52,7 +52,7 @@ class TransferImpl extends OperationImpl implements Transfer
             }
             $output = $body['path'];
         } catch (GuzzleException $e) {
-            Utils\ArchivmaticaUtils::decodeGuzzleException($e);
+            ArchivmaticaUtils::decodeGuzzleException($e);
         }
         return $output;
     }
@@ -67,7 +67,7 @@ class TransferImpl extends OperationImpl implements Transfer
             $response = $this->am_client->get(
                 '/api/v2/transfer/unapproved/'
             );
-            $body = Utils\ArchivmaticaUtils::decodeJsonResponse(
+            $body = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Request to list transfers failed"
@@ -84,7 +84,7 @@ class TransferImpl extends OperationImpl implements Transfer
             }
             $output = $body['results'];
         } catch (GuzzleException $e) {
-            Utils\ArchivmaticaUtils::decodeGuzzleException($e);
+            ArchivmaticaUtils::decodeGuzzleException($e);
         }
         return $output;
     }
@@ -106,7 +106,7 @@ class TransferImpl extends OperationImpl implements Transfer
                     ],
                 ]
             );
-            $body = Utils\ArchivmaticaUtils::decodeJsonResponse(
+            $body = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 200,
                 "Request to approve directory ($directory) failed"
@@ -121,7 +121,7 @@ class TransferImpl extends OperationImpl implements Transfer
             }
             $output = $body['uuid'];
         } catch (GuzzleException $e) {
-            Utils\ArchivmaticaUtils::decodeGuzzleException($e);
+            ArchivmaticaUtils::decodeGuzzleException($e);
         }
         return $output;
     }
@@ -155,7 +155,33 @@ class TransferImpl extends OperationImpl implements Transfer
      */
     public function reingest(string $name, string $uuid): string
     {
-        return parent::internalReingest($name, $uuid, "transfer");
+        $output = "";
+        try {
+            $response = $this->am_client->post(
+                "/api/transfer/reingest/",
+                [
+                    'form_params' => [
+                        'name' => $name,
+                        'uuid' => $uuid,
+                    ],
+                ]
+            );
+            $body = ArchivmaticaUtils::decodeJsonResponse(
+                $response,
+                201,
+                "Re-ingest request ({$uuid}) failed"
+            );
+            if (
+                !is_array($body) || !array_key_exists('message', $body) ||
+                strcasecmp($body['message'], 'Approval successful.') != 0
+            ) {
+                throw new RequestException("Request for re-ingest ($uuid) did not succeed:");
+            }
+            $output = $body['reingest_uuid'];
+        } catch (GuzzleException $e) {
+            ArchivmaticaUtils::decodeGuzzleException($e);
+        }
+        return $output;
     }
 
     /**
