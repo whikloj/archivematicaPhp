@@ -1,0 +1,65 @@
+
+-
+    request:
+        method: GET
+        url: 'http://192.168.168.192:8000/api/v2/pipeline/?description__startswith=Test'
+        headers:
+            Host: '192.168.168.192:8000'
+            Accept-Encoding: ''
+            User-Agent: GuzzleHttp/7
+            Authorization: 'ApiKey test:5de62f6f4817f903dcfac47fa5cffd44685a2cf2'
+            Accept: ''
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            Server: nginx/1.20.2
+            Date: 'Wed, 16 Mar 2022 15:21:41 GMT'
+            Content-Type: application/json
+            Content-Length: '305'
+            Connection: keep-alive
+            Vary: 'Accept, Accept-Language, Cookie'
+            Cache-Control: no-cache
+            X-Frame-Options: SAMEORIGIN
+            Content-Language: en
+        body: '{"meta": {"limit": 20, "next": null, "offset": 0, "previous": null, "total_count": 1}, "objects": [{"description": "Test pipeline", "remote_name": "http://test-pipeline.local:8000", "resource_uri": "/api/v2/pipeline/eb0b63e5-958b-42c5-b14b-00bf0a6965d4/", "uuid": "eb0b63e5-958b-42c5-b14b-00bf0a6965d4"}]}'
+        curl_info:
+            url: 'http://192.168.168.192:8000/api/v2/pipeline/?description__startswith=Test'
+            content_type: application/json
+            http_code: 200
+            header_size: 270
+            request_size: 145
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.029304
+            namelookup_time: 0.00791
+            connect_time: 0.008105
+            pretransfer_time: 0.008721
+            size_upload: 0.0
+            size_download: 305.0
+            speed_download: 10408.0
+            speed_upload: 0.0
+            download_content_length: 305.0
+            upload_content_length: 0.0
+            starttransfer_time: 0.029265
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 127.0.0.1
+            certinfo: {  }
+            primary_port: 62081
+            local_ip: 127.0.0.1
+            local_port: 54857
+            http_version: 2
+            protocol: 1
+            ssl_verifyresult: 0
+            scheme: HTTP
+            appconnect_time_us: 0
+            connect_time_us: 8105
+            namelookup_time_us: 7910
+            pretransfer_time_us: 8721
+            redirect_time_us: 0
+            starttransfer_time_us: 29265
+            total_time_us: 29304

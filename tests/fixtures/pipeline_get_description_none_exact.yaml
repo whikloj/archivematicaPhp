@@ -1,0 +1,65 @@
+
+-
+    request:
+        method: GET
+        url: 'http://192.168.168.192:8000/api/v2/pipeline/?description=Weird%20lines'
+        headers:
+            Host: '192.168.168.192:8000'
+            Accept-Encoding: ''
+            User-Agent: GuzzleHttp/7
+            Authorization: 'ApiKey test:5de62f6f4817f903dcfac47fa5cffd44685a2cf2'
+            Accept: ''
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            Server: nginx/1.20.2
+            Date: 'Wed, 16 Mar 2022 15:21:41 GMT'
+            Content-Type: application/json
+            Content-Length: '101'
+            Connection: keep-alive
+            Vary: 'Accept, Accept-Language, Cookie'
+            Cache-Control: no-cache
+            X-Frame-Options: SAMEORIGIN
+            Content-Language: en
+        body: '{"meta": {"limit": 20, "next": null, "offset": 0, "previous": null, "total_count": 0}, "objects": []}'
+        curl_info:
+            url: 'http://192.168.168.192:8000/api/v2/pipeline/?description=Weird%20lines'
+            content_type: application/json
+            http_code: 200
+            header_size: 270
+            request_size: 142
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.01501
+            namelookup_time: 0.000257
+            connect_time: 0.000464
+            pretransfer_time: 0.000489
+            size_upload: 0.0
+            size_download: 101.0
+            speed_download: 6728.0
+            speed_upload: 0.0
+            download_content_length: 101.0
+            upload_content_length: 0.0
+            starttransfer_time: 0.01499
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 127.0.0.1
+            certinfo: {  }
+            primary_port: 62081
+            local_ip: 127.0.0.1
+            local_port: 54860
+            http_version: 2
+            protocol: 1
+            ssl_verifyresult: 0
+            scheme: HTTP
+            appconnect_time_us: 0
+            connect_time_us: 464
+            namelookup_time_us: 257
+            pretransfer_time_us: 489
+            redirect_time_us: 0
+            starttransfer_time_us: 14990
+            total_time_us: 15010

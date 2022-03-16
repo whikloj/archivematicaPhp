@@ -1,0 +1,27 @@
+
+-
+    request:
+        method: GET
+        url: 'http://192.168.168.192:8000/api/v2/pipeline/8490b352-6ad0-4590-a3f1-6dc5f8abd603/'
+        headers:
+            Host: '192.168.168.192:8000'
+            Accept-Encoding: ''
+            User-Agent: GuzzleHttp/7
+            Authorization: 'ApiKey test:5de62f6f4817f903dcfac47fa5cffd44685a2cf2'
+            Accept: ''
+    response:
+        status:
+            http_version: '1.1'
+            code: '200'
+            message: OK
+        headers:
+            Server: nginx/1.20.2
+            Date: 'Wed, 16 Mar 2022 15:12:04 GMT'
+            Content-Type: application/json
+            Content-Length: '224'
+            Connection: keep-alive
+            Vary: 'Accept, Accept-Language, Cookie'
+            Cache-Control: no-cache
+            X-Frame-Options: SAMEORIGIN
+            Content-Language: en
+        body: '{"description": "Archivematica on 7e7f2995a0e3", "remote_name": "http://archivematica-dashboard:8000", "resource_uri": "/api/v2/pipeline/8490b352-6ad0-4590-a3f1-6dc5f8abd603/", "uuid": "8490b352-6ad0-4590-a3f1-6dc5f8abd603"}'

@@ -3,8 +3,6 @@
 namespace whikloj\archivematicaPhp;
 
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Query;
-use GuzzleHttp\Psr7\Utils;
 use whikloj\archivematicaPhp\Utils\ArchivmaticaUtils;
 
 /**
@@ -57,14 +55,10 @@ class IngestImpl extends OperationImpl implements Ingest
                 "sip_uuid" => $uuid,
                 "source_paths" => $encoded_paths,
             ];
-            $body_content = Query::build($payload);
             $response = $this->am_client->post(
                 "/api/ingest/copy_metadata_files/",
                 [
-                    "body" => $body_content,
-                    "headers" => [
-                        "Content-Type" => "application/x-www-form-urlencoded",
-                    ],
+                    "query" => $payload,
                 ]
             );
             $body = ArchivmaticaUtils::decodeJsonResponse(

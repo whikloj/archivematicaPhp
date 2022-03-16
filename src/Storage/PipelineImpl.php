@@ -4,12 +4,14 @@ namespace whikloj\archivematicaPhp\Storage;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Psr\Http\Message\ResponseInterface;
-use whikloj\archivematicaPhp\ArchivematicaImpl;
 use whikloj\archivematicaPhp\DjangoFilter;
-use whikloj\archivematicaPhp\Exceptions\RequestException;
 use whikloj\archivematicaPhp\Utils\ArchivmaticaUtils;
 
+/**
+ * Implementation of the Pipeline
+ * @author Jared Whiklo
+ * @since 0.0.1
+ */
 class PipelineImpl implements Pipeline
 {
     /**
@@ -46,7 +48,7 @@ class PipelineImpl implements Pipeline
         if (!$exact) {
             $filter->startsWith();
         }
-        return $this->get("Request to get pipeline by description ({$description}) failed", $filter);
+        return $this->get("Request to get pipeline by description ($description) failed", $filter);
     }
 
     /**
@@ -59,7 +61,7 @@ class PipelineImpl implements Pipeline
         $body = [];
         try {
             $response = $this->client->get(
-                "/api/v2/pipeline/{$uuid}"
+                "/api/v2/pipeline/$uuid/"
             );
             $body = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
@@ -83,11 +85,13 @@ class PipelineImpl implements Pipeline
      *      - description=Archivematica+Pipeline
      *      - description_startsWith=Archivematica
      * @return array
-     * @see Pipeline::getAll()
      * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
      *   On 403 Forbidden response
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   On 404 Not Found response
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   On other client exceptions.
+     * @see Pipeline::getAll()
      */
     private function get(string $message, DjangoFilter $filter = null): array
     {
@@ -150,7 +154,7 @@ class PipelineImpl implements Pipeline
             $body = ArchivmaticaUtils::decodeJsonResponse(
                 $response,
                 201,
-                "Failed to create new pipeline with UUID ({$uuid})"
+                "Failed to create new pipeline with UUID ($uuid)"
             );
         } catch (GuzzleException $e) {
             ArchivmaticaUtils::decodeGuzzleException($e);

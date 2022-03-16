@@ -45,8 +45,8 @@ class DjangoFilter
      */
     public static function create(string $field, $value): DjangoFilter
     {
-        if (!(is_int($value) || is_float($value) || is_long($value) || is_bool($value) || is_string($value))) {
-            throw new \InvalidArgumentException("Value must be a string, boolean, integer, float or long.");
+        if (!(is_int($value) || is_float($value) || is_bool($value) || is_string($value))) {
+            throw new \InvalidArgumentException("Value must be a string, boolean, integer, or float.");
         }
         return new DjangoFilter($field, $value);
     }
@@ -77,7 +77,7 @@ class DjangoFilter
      */
     public function startsWith(): DjangoFilter
     {
-        $this->adjustment = "startsWith";
+        $this->adjustment = "startswith";
         return $this;
     }
 
@@ -111,10 +111,10 @@ class DjangoFilter
         $output = "";
         if (is_bool($this->value)) {
             $output = ($this->value ? "true" : "false");
-        } elseif (is_float($this->value) || is_int($this->value) || is_long($this->value)) {
+        } elseif (is_float($this->value) || is_int($this->value)) {
             $output = $this->value;
         } elseif (is_string($this->value)) {
-            $output = urlencode($this->value);
+            $output = $this->value;
         }
         return $output;
     }

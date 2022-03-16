@@ -21,6 +21,8 @@ interface Pipeline
      *     - uuid
      * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
      *   Problem with username or API key.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Endpoint not found
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Problem with making the request.
      */
@@ -42,25 +44,28 @@ interface Pipeline
      *     - uuid
      * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
      *   Problem with username or API key.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Endpoint not found
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Problem with making the request.
      */
     public function getByDescription(string $description, bool $exact): array;
 
     /**
-     * Get all pipelines filtered by the UUID.
+     * Get a specific pipeline
      *
      * @param string $uuid
      *   The UUID to match on
      * @return array
-     *   Array with keys meta (metadata) and objects,
-     *   objects are arrays with keys
+     *   Array with keys
      *     - description
      *     - remote_name
      *     - resource_uri
      *     - uuid
      * @throws \whikloj\archivematicaPhp\Exceptions\AuthorizationException
      *   Problem with username or API key.
+     * @throws \whikloj\archivematicaPhp\Exceptions\ItemNotFoundException
+     *   Specified pipeline is not found.
      * @throws \whikloj\archivematicaPhp\Exceptions\RequestException
      *   Problem with making the request.
      */
